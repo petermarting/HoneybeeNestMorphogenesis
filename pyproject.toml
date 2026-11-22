@@ -1,0 +1,74 @@
+[project]
+name = "combinator"
+version = "0.1.0"
+description = "Analysis and modeling of honeybee nest-content 4D atlas data (code, models, and data for the Current Biology 2026 manuscript)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Peter R. Marting" },
+    { name = "Jacob M. Graving" },
+]
+dependencies = [
+    "numpy>=1.24",
+    "torch>=2.0",
+    "pytorch-lightning==2.5.0",
+    "einops>=0.7",
+    "scikit-image>=0.21",
+    "scikit-learn>=1.3",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "matplotlib>=3.7",
+    "seaborn>=0.13",
+    "joblib>=1.3",
+    "tqdm>=4.65",
+    "statsmodels>=0.14",
+    "pingouin>=0.7",
+    "networkx>=3.2",
+]
+
+[project.optional-dependencies]
+# Extra dependencies used by the two comb-content analysis notebooks that are
+# kept for completeness.  The autoregressive model itself (combinator/) needs
+# only the core dependencies above.
+analysis = [
+    "opencv-python>=4.8",
+    "pySankey>=0.0.1",
+    "pylandstats>=2.7",
+    "alphashape>=1.3",
+    "plotly>=5.18",
+    "imageio>=2.31",
+    "ridgeplot>=0.1.4",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+
+[project.urls]
+homepage = "https://github.com/petermarting/HoneybeeNestMorphogenesis"
+repository = "https://github.com/petermarting/HoneybeeNestMorphogenesis"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["combinator", "combinator.content"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+# classic default set; E741 (ambiguous l/I/O names) ignored for fidelity to
+# the ported notebook code
+select = ["E4", "E7", "E9", "F"]
+ignore = ["E741"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "slow: long-running (full-precision bootstrap / heavy figure) tests, deselected by default",
+]
+addopts = "-m 'not slow'"
